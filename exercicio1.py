@@ -10,29 +10,25 @@ RM,NOME,MEDIA do aluno
 disciplina, contendo RM,NOME,MEDIA do aluno. 
 Para o aluno ser aprovado ele deve ter média igual ou superior a 6.0'''
 
+with open('notas.csv', 'r') as arquivo:
+    aprovados = open('aprovados.csv', 'w')
+    aprovados.write('RM;NOME;MEDIA\n')
+    reprovados = open('reprovado.csv', 'w')
+    reprovados.write('RM;NOME;MEDIA\n')
 
-
-with open('notas.csv', 'r') as arquivo:         # arquivo para leitura
-    
-    aprovados = open('aprovados.csv', 'w')      # arquivo para escrita
-    aprovados.write('RM,NOME,MEDIA\n')          # escreve primeira linha
-    reprovados = open('reprovado.csv', 'w')     # arquivo para escrita
-    reprovados.write('RM,NOME,MEDIA\n')         # escreve primeira linha
-
-    cont_linha = 1
-    for linha in arquivo:                   # percorre linhas do arquivo
-        if cont_linha > 1:                  # exclui primeira linha
-            lista = linha.split(',')
-            lista_notas = lista[-4:]        # gera lista com as notas
-
-            soma = 0                        # calcular media
-            for nota in lista_notas:        
-                soma += float(nota)
+    cont = 1
+    for linha in arquivo:
+        if cont > 1:
+            lista = linha.split(';')
+            notas = lista[-4:]
+            print(notas)
+            soma = 0
+            for n in notas:
+                soma += float(n)
             media = soma / 4
-            print(f'Notas: {lista_notas}\t Média: {media:.2f}')
-            
+            print(f'{media:.2f}')
             if media >= 6:
-                aprovados.write(f'{lista[0]},{lista[1]},{media:.2f}\n')     # escreve no arquivo
+                aprovados.write(f'{lista[0]};{lista[1]};{media:.2f}\n')
             else:
-                reprovados.write(f'{lista[0]},{lista[1]},{media:.2f}\n')    # escreve no arquivo
-        cont_linha += 1
+                reprovados.write(f'{lista[0]};{lista[1]};{media:.2f}\n')
+        cont += 1
